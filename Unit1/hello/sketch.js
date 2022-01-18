@@ -4,7 +4,7 @@ function setup() {
 }
 
 function draw() {
-  background('red') ;
+  background(80,125,42) ;
   fill('white') ;
   textSize(32) ;
   text("Halo Infinite", 250, 250) ;
