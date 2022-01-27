@@ -1,5 +1,5 @@
 let song1;
-funcion preload(){
+function preload(){
     song1 = loadSound("assets/lofiLoop.mp3");
 }
 function setup() {
