@@ -18,7 +18,7 @@ function setup() {
     textFont(roughFont);
     textSize(32);
     text("SHOWDOWN FOR THE CHAMPIONSHIP",width/2,height/2+20
-    ,width,5);
+    ,width,50);
   pop();
 
 }
