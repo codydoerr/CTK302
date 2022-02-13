@@ -37,11 +37,12 @@ function draw() {
         quad(270,290,950,-60,950,60,270,310);
         fill("#00FFFF");
         quad(270,290,970,-60,950,45,270,310);
+        textSize(50);
         textFont(roughFont);
-        text("BWAAAARRRGGGGGGHHHHHHH", 550,520,200,300);
+        text("BWAARRRGGGHHHH", 400,520,200,300);
       } else {
           fill('white');
-          textSize(40);
+          textSize(20);
           textFont(clearFont);
           text("What's going on? My name is pa--.... Bob. My name is Bob. I have this weird thing where I-...", 550,520,200,300);
         lower = 30;
@@ -59,10 +60,16 @@ function draw() {
       //arms
       quad(300,490,400,470,400,490,300,510);
       quad(400,470,470,400,470,430,400,490);
-      fill("white");
-      circle(320,240,20);
-      fill("black");
-      circle(320,240,10);
+      if(pressed){
+          fill("white");
+          circle(290,240,20);
+      }
+      else{
+          fill("white");
+          circle(320,240,20);
+          fill("black");
+          circle(320,240,10);
+      }
   pop();
   print("the width is " + width);
 }
