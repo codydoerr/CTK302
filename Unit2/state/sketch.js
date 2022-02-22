@@ -1,11 +1,10 @@
 function setup() {
-  let canvas = createCanvas(1000, 1000);
+  let canvas = createCanvas(windowWidth, windowHeight);
 }
 let state = 0;
 function draw() {
     switch (state) {
         case 0:
-
             background('yellow');
             for(let j = 0;j < 100;j++){
                 for(let i = 0;i < 100;i++){
@@ -55,7 +54,7 @@ function draw() {
         case 2:
             let circleSize = 50;
             let incTwo = 10;
-            background("white");
+            background("black");
             for(let i = 1;i < 200;i+=incTwo){
                 for(let j = 1;j < 250;j+=incTwo){
                     for(let k = 1;k < 100;k+=incTwo/2){
