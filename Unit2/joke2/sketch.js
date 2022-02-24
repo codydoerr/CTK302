@@ -13,16 +13,24 @@ function draw(){
 
     background("black");
     fill("White");
-    switch (timer) {
-        case timer>(timer/2):
-            text("To get to the other side! BAH HAH HAH", width/2, height/2);
-            break;
-        default:
+    switch (jokeState) {
+
+        case 0:
             text("Why did the chicken cross the road?", width/2, height/2);
             break;
+        case 1:
+            text("To get to the other side! BAH HAH HAH", width/2, height/2);
             break;
+
     }
-    timer = ((timer+1)*60) % (10*60);
+        timer++ ;
+        if (timer > 2*60) {
+            timer = 0 ;
+            jokeState++ ;
+        if (jokeState > 1) {
+          jokeState = 0 ;
+        }
+      }
 }
 
 function mouseReleased() {
