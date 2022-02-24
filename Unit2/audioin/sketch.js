@@ -40,24 +40,26 @@ function draw() {
 
   // use y for your "gradual" variable!
   y = map(approachingVol, 0, theLoudestItGets, 0, width);
-  rect(y, 270, 50, 50);
-
+  //rect(y, 270, 50, 50);
+  //circle(y,300,50);
+  let volString = "Loud";
+  text(volString,y,300);
 
   // this maps z to between 0 and 3 so you can switch on it.
   z = int(map(approachingVol, 0, theLoudestItGets, 0, 3));
   text("z = " + z, 300, 20);
   switch (z) {
     case 0:
-      text("background 0", 100, 320);
+      volString = "Loud";
       break;
     case 1:
-      text("background 1", 100, 320);
+      volString = "Louder";
       break;
     case 2:
-      text("background 2", 100, 320);
+      volString = "Louder-er";
       break;
     default:
-      text("background 2", 100, 320);
+      volString = "Louder-est";
       break;
   }
 }
