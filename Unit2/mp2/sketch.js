@@ -1,5 +1,7 @@
 let numberOfTouches;
 let circleSize;
+let waitTooLong = false;
+let timer = 0;
 function setup() {
     circleSize = 200;
     createCanvas(windowWidth, windowHeight);
@@ -20,7 +22,16 @@ function draw() {
 
     switch (numberOfTouches) {
         case 0:
-            text("no one is touching the screen", 5, 22);
+            text("Hello. Welcome to The Test. Please create one circle for me.", 5, 22);
+            timer++;
+            text(round(timer/60,2),10,10);
+            if(timer > 30){
+                timer = 0;
+
+            }
+            if(waitTooLong){
+                text("If you do not know how to make a circle, just try touching the screen.")
+            }
             break;
 
         case 1:
