@@ -8,11 +8,12 @@ var gif_loadImg, gif_createImg;
 
 function preload() {
     gif_loadImg = loadImage("assets/sharkattack.gif");
+
 }
 
 function setup() {
     circleSize = 200;
-    createCanvas(windowWidth - 10, windowHeight - 10);
+    createCanvas(800,800);
     rectMode(CENTER);
     textSize(20);
 }
@@ -69,7 +70,8 @@ function draw() {
 
             }
         } else {
-            image(gif_loadImg, width / 2, width / 2);
+            gif_createImg = createImg("assets/sharkattack.gif");
+            image(gif_loadImg, width / 2, height / 2);
             gif_createImg.position(50, 350);
             text("Quick remove your fingers!", width / 2, height / 2);
         }
