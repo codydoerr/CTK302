@@ -16,25 +16,28 @@ function setup() {
 function draw() {
     switch (songState) {
         case 0:
-            song1.play();
+            song1.loop();
             songState++;
             break;
         case 1:
             background('black');
+            text("Ellary Loop 1",width/2,height/2);
             break;
         case 2:
-            song2.play();
+            song2.loop();
             songState++;
             break;
         case 3:
             background('black');
+            text("Ellary Loop 2",width/2,height/2);
             break;
         case 4:
-            song3.play();
+            song3.loop();
             songState++;
             break;
         case 5:
             background('black');
+            text("Ellary Loop 3",width/2,height/2);
             break;
     }
 
