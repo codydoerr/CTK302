@@ -14,6 +14,7 @@ function setup() {
 }
 
 function draw() {
+    fill("white");
     switch (songState) {
         case 0:
             song1.loop();
