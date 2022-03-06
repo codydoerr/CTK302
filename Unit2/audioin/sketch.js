@@ -15,7 +15,7 @@ function setup() {
 }
 
 function draw() {
-  background("green");
+  background("cyan");
 
   // get the sound input
   vol = mic.getLevel(); // returned level is between 0 and 1
@@ -36,32 +36,18 @@ function draw() {
 
   // this moves that first box
   x = map(vol, 0, theLoudestItGets, 0, width);
-  rect(x, 200, 50, 50);
+  text("Current Loudness",x, 200, 50, 50);
 
   // use y for your "gradual" variable!
   y = map(approachingVol, 0, theLoudestItGets, 0, width);
   //rect(y, 270, 50, 50);
   //circle(y,300,50);
-  let volString = "Loud";
+  let volString = "Send me to the End";
   text(volString,y,300);
 
   // this maps z to between 0 and 3 so you can switch on it.
   z = int(map(approachingVol, 0, theLoudestItGets, 0, 3));
   text("z = " + z, 300, 20);
-  switch (z) {
-    case 0:
-      volString = "Loud";
-      break;
-    case 1:
-      volString = "Louder";
-      break;
-    case 2:
-      volString = "Louder-er";
-      break;
-    default:
-      volString = "Louder-est";
-      break;
-  }
 }
 
 // you need this code for audio programs and also, the user
