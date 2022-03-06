@@ -14,7 +14,6 @@ function setup() {
 }
 
 function draw() {
-    fill("white");
     switch (songState) {
         case 0:
             song1.loop();
@@ -22,6 +21,7 @@ function draw() {
             break;
         case 1:
             background('black');
+            fill("white");
             text("Ellary Loop 1",width/2,height/2);
             break;
         case 2:
@@ -30,6 +30,7 @@ function draw() {
             break;
         case 3:
             background('black');
+            fill("white");
             text("Ellary Loop 2",width/2,height/2);
             break;
         case 4:
@@ -38,6 +39,7 @@ function draw() {
             break;
         case 5:
             background('black');
+            fill("white");
             text("Ellary Loop 3",width/2,height/2);
             break;
     }
