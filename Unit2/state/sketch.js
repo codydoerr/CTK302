@@ -1,5 +1,5 @@
 function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(750, 750);
 }
 let state = 0;
 function draw() {
@@ -67,11 +67,29 @@ function draw() {
             break;
         case 3:
             background('red');
-            text("case 3", 250, 250);
+            let circleSize2 = 50;
+            let incThree = 20;
+            background("black");
+            for(let i = 1;i < 200;i+=incThree){
+                for(let j = 1;j < 250;j+=incThree){
+                    for(let k = 1;k < 100;k+=incThree/2){
+                        stroke("black");
+                        fill("#FA872D");
+                        circle((2*PI*k),(2*PI*i+j),circleSize2);
+                    }
+                }
+            }
             break;
         case 4:
             background('blue');
-            text("case 4", 250, 250);
+            for(let j = 0;j < 100;j++){
+                for(let i = 0;i < 100;i++){
+                    push();
+                    fill('yellow');
+                    rect(i*20,j*20,(i+j)/(i-j),(i+j)*(i-j));
+                    pop();
+                }
+            }
             break;
     }
 }
