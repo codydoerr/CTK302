@@ -4,40 +4,50 @@ let waitTooLong = false;
 let heldOne = false;
 let sharkAttack = false;
 let timer = 0;
+let playingGif = false;
 var gif_loadImg, gif_createImg;
+var textX;
+var textY;
+var textSize = 20;
 
 function preload() {
     gif_loadImg = loadImage("assets/sharkattack.gif");
-
 }
 
 function setup() {
     circleSize = 200;
-    createCanvas(800,800);
+    createCanvas(800, 800);
     rectMode(CENTER);
-    textSize(20);
+    textSize(textSize);
+    textX = width / 2;
+    textY = height / 4;
 }
 
 function draw() {
-    clear();
-
+    background("grey");
     numberOfTouches = touches.length;
-    if (touches.length > 0) {
-        for (let i = 0; i < (touches.length); i++) {
-            if (touches.length < 3) {
-                fill("black");
-                circle(touches[i].x, touches[i].y, circleSize);
-            } else {
-                sharkAttack = false;
-            }
+    if (sharkAttack) {
+        if (!playingGif) {
+            gif_createImg = createImg("assets/sharkattack.gif");
+            image(gif_loadImg, width / 2, height / 2);
+            gif_createImg.position(50, 350);
+            playingGif = true;
         }
+        text("Quick remove your fingers!", textX, textY);
+    } else if (touches.length > 0) {
         if (!sharkAttack) {
+            for (let i = 0; i < (touches.length); i++) {
+                if (touches.length < 3) {
+                    fill("black");
+                    circle(touches[i].x, touches[i].y, circleSize);
+                }
+            }
             switch (numberOfTouches) {
                 case 0:
                     if (!heldOne) {
-                        text("Hello. Welcome to The Test. Please create one circle for me.", 5, 22);
+                        text("Hello. Welcome to The Test. Please create one circle for me.", textX, textY);
                         if (waitTooLong) {
-                            text("If you do not know how to make a circle, just try touching the screen.", width / 2, height / 2);
+                            text("If you do not know how to make a circle, just try touching the screen.", textX, textY + textSize);
                         } else {
                             timer++;
                             if (timer > 5 * 60) {
@@ -45,15 +55,14 @@ function draw() {
                             }
                         }
                     } else {
-                        text("Please place your finger back on the screen", 5, 22);
+                        text("Please place your finger back on the screen", textX, textY);
                     }
                     break;
 
                 case 1:
                     sharkAttack = false;
                     heldOne = true;
-                    text("Good job! Now, please make a second circle for me", 5, 22);
-                    // put a picture here
+                    text("Good job! Now, please make a second circle for me", textX, textY);
                     break;
 
                 case 2:
@@ -61,19 +70,12 @@ function draw() {
                     if (dist(touches[0].x, touches[0].y, touches[1].x, touches[1].y) < circleSize) {
                         sharkAttack = true;
                     }
-                    // put a picture here
                     break;
                 default:
-                    text("No no, please remove a finger for me. Only make two at a time!", 5, 22);
+                    text("No no, please remove a finger for me. Only make two at a time!", textX, textY);
                     sharkAttack = false;
                     break;
-
             }
-        } else {
-            gif_createImg = createImg("assets/sharkattack.gif");
-            image(gif_loadImg, width / 2, height / 2);
-            gif_createImg.position(50, 350);
-            text("Quick remove your fingers!", width / 2, height / 2);
         }
     }
 }
