@@ -1,4 +1,4 @@
-
+let frogPosition;
 let cars = [];
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -7,6 +7,7 @@ function setup() {
   for(let i = 0;i<50;i++){
     cars.push(new Car());
   }
+  frogPosition = createVector(width/2,height*3/4);
 }
 
 function draw() {
@@ -14,10 +15,14 @@ function draw() {
   for(let i = 0;i<cars.length-1;i++){
     cars[i].display();
     cars[i].move();
-
     fill('white');
   }
+  fill('green');
+  ellipse(frogPosition.x,frogPosition.y,75);
 }
+
+
+
 
 class Car {
 
