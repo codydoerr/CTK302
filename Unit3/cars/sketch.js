@@ -2,7 +2,7 @@ let frogPosition;
 let cars = [];
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background('red');
+
   // Spawn one object
   for(let i = 0;i<50;i++){
     cars.push(new Car());
@@ -11,14 +11,14 @@ function setup() {
 }
 
 function draw() {
-
+      background(random(255),random(255),random(255),random(0, 10));
   for(let i = 0;i<cars.length-1;i++){
     cars[i].display();
     cars[i].move();
     fill('white');
   }
-  fill('green');
-  ellipse(frogPosition.x,frogPosition.y,75);
+  //fill('green');
+  //ellipse(frogPosition.x,frogPosition.y,75);
 }
 
 
