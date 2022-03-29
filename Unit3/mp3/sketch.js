@@ -3,15 +3,24 @@ let cars = [];
 let speed = 5;
 let moving = false;
 let state = 0;
-let timer = 0;
-let maxCars = 500;
-let sizeOfText = 50;
+let timer = 60;
+let maxCars = 50;
+let sizeOfText = 100;
+let words;
+let blockFont
 let bgR;
 let bgB;
 let bgG;
 let bgA;
 let c;
+
+function preload() {
+    blockFont = loadFont("assets/typeblock/TYPEB___.TTF");
+    words = loadStrings("assets/words.txt");
+}
+
 function setup() {
+    textFont(blockFont);
     createCanvas(windowWidth - 10, windowHeight - 10);
 
     // Spawn one object
@@ -24,6 +33,7 @@ function setup() {
 function draw() {
     switch (state) {
         case 0: //menu
+            rectMode(CENTER);
             bgR = random(255);
             bgG = random(255);
             bgB = random(255);
@@ -31,19 +41,27 @@ function draw() {
             c = color(bgR, bgG, bgB, bgA);
             background(c);
             textSize(sizeOfText);
-            text("WELCOME", width / 2, height / 2,100,100);
+            rectMode(CENTER);
+            textAlign(CENTER);
+            text("Overwhelming", width / 2, height / 2, 100, 100);
             break;
         case 1: //game
-            timer++;
-            textSize(sizeOfText);
-            text(timer/60,10,10);
-            if(timer>60*60){
+            rectMode(CENTER);
+            textAlign(CENTER);
+            timer-=1/60;
+
+            if (timer < 1) {
                 state = 3;
-                timer = 0;
+                timer = 10;
             }
             game();
+            textSize(sizeOfText);
+            fill('white');
+            text(round(timer,1), width/2, sizeOfText);
             break;
         case 2: //win screen
+            rectMode(CENTER);
+            textAlign(CENTER);
             bgR = random(144);
             bgG = random(144);
             bgB = random(144);
@@ -52,18 +70,30 @@ function draw() {
             background(c);
             fill('black');
             textSize(sizeOfText);
-            text('You Succeed!', width/2,height/2);
+            text('The Day is Over', width / 2, height / 2);
+            timer-=1/60;
+
+            if (timer < 1) {
+                text('Click to Try Again', width / 2, (height / 2)+50);
+            }
             break;
         case 3: //lose screen
-            bgR = random(145,255);
-            bgG = random(145,255);
-            bgB = random(145,255);
+            bgR = random(145, 255);
+            bgG = random(145, 255);
+            bgB = random(145, 255);
             bgA = random(0, 10);
             c = color(bgR, bgG, bgB, bgA);
             background(c);
             fill('black');
             textSize(sizeOfText);
-            text('You Failed!', width/2,height/2);
+            text('Overwhelmed', width / 2, height / 2);
+            timer-=1/60;
+
+            if (timer < 1) {
+                fill('black');
+                textSize(sizeOfText);
+                text('Click to Try Again', width / 2, (height / 2)+50);
+            }
             break;
     }
 }
@@ -82,12 +112,13 @@ function game() {
             cars.splice(i, 1);
         }
     }
-    if(cars.length == 0){
+    if (cars.length == 0) {
         state = 2;
     }
-    fill(c);
-    ellipse(frogPosition.x, frogPosition.y, 40);
+    fill('black');
     checkForKeys();
+    ellipse(frogPosition.x, frogPosition.y, 40);
+
 }
 
 function mouseReleased() {
@@ -97,11 +128,20 @@ function mouseReleased() {
             break;
         }
         case 2: {
+            for (let i = cars.length-1; i < maxCars; i++) {
+                if(cars.length-1<0)i=0;
+                cars.push(new Car());
+            }
+            timer = 60;
             state = 0;
             break;
         }
         case 3: {
-
+            for (let i = cars.length-1; i < maxCars; i++) {
+                if(cars.length-1<0)i=0;
+                cars.push(new Car());
+            }
+            timer = 60;
             state = 0;
             break;
         }
@@ -111,20 +151,20 @@ function mouseReleased() {
 function checkForKeys() {
     if (keyIsDown(LEFT_ARROW) && !moving) {
         moving = true;
-        frogPosition.x -= speed;
+        if(frogPosition.x>=0) frogPosition.x -= speed;
         moving = false;
     } else if (keyIsDown(RIGHT_ARROW) && !moving) {
         moving = true;
-        frogPosition.x += speed;
+        if(frogPosition.x<=width) frogPosition.x += speed;
         moving = false;
     }
     if (keyIsDown(UP_ARROW) && !moving) {
         moving = true;
-        frogPosition.y -= speed;
+        if(frogPosition.y>=0) frogPosition.y -= speed;
         moving = false;
     } else if (keyIsDown(DOWN_ARROW) && !moving) {
         moving = true;
-        frogPosition.y += speed;
+        if(frogPosition.y<=height) frogPosition.y += speed;
         moving = false;
     }
 }
@@ -133,37 +173,32 @@ class Car {
 
     // constructor and attributes
     constructor() {
-        this.pos = createVector(random(width), random(height));
-        this.v = createVector(random(1, 10), 0);
+        this.pos = createVector(random(width), random(50,height-50));
+        this.v = createVector(random(5, 15), 0);
         this.rgb = createVector(random(255), random(255), random(255));
         this.a = random(255);
         this.textSize = random(36, 84);
+        this.word = random(words);
     }
 
     // methods
 
     display() {
+        rectMode(CENTER);
+        textAlign(CENTER);
         fill(this.rgb.x, this.rgb.y, this.rgb.z, this.a);
-        rect(this.pos.x, this.pos.y, 80, 25);
+        stroke(1);
+        text(this.word,this.pos.x,this.pos.y);
+        //rect(this.pos.x, this.pos.y, 80, 25);
         //textSize(this.textSize);
         //text("Bongo",this.pos.x, this.pos.y);
     }
 
     move() {
         this.pos.add(this.v);
-        if (this.pos.y < 0) {
-            this.pos.y = height;
-            this.pos.x = random(width);
-        } else if (this.pos.y > height) {
-            this.pos.y = 0;
-            this.pos.x = random(width);
-        }
-        if (this.pos.x < 0) {
-            this.pos.x = width;
-            this.pos.y = random(height);
-        } else if (this.pos.x > width) {
+        if (this.pos.x > width) {
             this.pos.x = 0;
-            this.pos.y = random(height);
+            this.pos.y = random(50,height-50);
         }
     }
 

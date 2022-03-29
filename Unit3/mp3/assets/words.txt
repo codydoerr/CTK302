@@ -1,0 +1,7 @@
+eat
+sleep
+breath
+win
+lose
+run
+lift
