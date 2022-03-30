@@ -178,7 +178,7 @@ class Car {
     this.pos = createVector(random(1,width-1), random(50, height - 50));
     this.v = createVector(random(5, 15), 0);
     this.rgb = createVector(random(255), random(255), random(255));
-    this.a = 255//random(50, 255);
+    this.a = random(50, 255);
     this.textSize = random(36, 84);
     this.word = random(words);
   }
@@ -190,9 +190,10 @@ class Car {
     textAlign(CENTER);
     fill(this.rgb.x, this.rgb.y, this.rgb.z, this.a);
     stroke(1);
+    textSize(this.textSize);
     text(this.word, this.pos.x, this.pos.y);
     //rect(this.pos.x, this.pos.y, 80, 25);
-    //textSize(this.textSize);
+
     //text("Bongo",this.pos.x, this.pos.y);
   }
 
