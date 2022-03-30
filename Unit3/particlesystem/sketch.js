@@ -3,7 +3,6 @@ let cars = [];
 let emitters = [];
 
 function setup() {
-
   createCanvas(windowWidth, windowHeight);
 }
 
