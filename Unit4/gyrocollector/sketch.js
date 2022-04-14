@@ -21,7 +21,7 @@ function setup() {
   gamma = 0;
 
 
-  // spawn a bunch of cars
+  // spawn a bunch of fishes
   for (var i = 0; i < 40; i++) {
     fishes.push(new Fish());
   }
@@ -64,8 +64,8 @@ function draw() {
   frogPos.x = xPosition;
   frogPos.y = yPosition;
 
-  // iterate through the car loop to move them and see if we need to delete cars
-  for (var i = 0; i < cars.length; i++) {
+  // iterate through the fish loop to move them and see if we need to delete fishes
+  for (var i = 0; i < fishes.length; i++) {
     fishes[i].display();
     fishes[i].drive();
     if (fishes[i].pos.dist(frogPos) < 50) {
@@ -101,7 +101,7 @@ function draw() {
 }
 
 function deviceShaken() {
-  // re-spawn cars
+  // re-spawn fishes
   fishes = []; // clear the array first
   for (var i = 0; i < 40; i++) {
     fishes.push(new Car());
