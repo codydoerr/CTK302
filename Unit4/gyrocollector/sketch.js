@@ -5,9 +5,9 @@ var y = 0;
 var z = 0;
 var xPosition = 0;
 var yPosition = 0;
-
+var fishImg;
 // var bunnyImage;
-var cars = [];
+var fishes = [];
 var frogPos;
 
 
@@ -23,13 +23,14 @@ function setup() {
 
   // spawn a bunch of cars
   for (var i = 0; i < 40; i++) {
-    cars.push(new Car());
+    fishes.push(new Fish());
   }
 
   // initialize the frog's position
   frogPos = createVector(width / 2, height - 80);
 
   // load any images you need
+  fishImg = loadImage("assets/PNG/fish.png");
   //bunnyImage = loadImage("assets/bunny.jpg");
   imageMode(CENTER);
   rectMode(CENTER);
@@ -65,10 +66,10 @@ function draw() {
 
   // iterate through the car loop to move them and see if we need to delete cars
   for (var i = 0; i < cars.length; i++) {
-    cars[i].display();
-    cars[i].drive();
-    if (cars[i].pos.dist(frogPos) < 50) {
-      cars.splice(i, 1);
+    fishes[i].display();
+    fishes[i].drive();
+    if (fishes[i].pos.dist(frogPos) < 50) {
+      fishes.splice(i, 1);
     }
   }
 
@@ -101,9 +102,9 @@ function draw() {
 
 function deviceShaken() {
   // re-spawn cars
-  cars = []; // clear the array first
+  fishes = []; // clear the array first
   for (var i = 0; i < 40; i++) {
-    cars.push(new Car());
+    fishes.push(new Car());
   }
 }
 
@@ -131,7 +132,7 @@ window.addEventListener('devicemotion', function(e) {
 
 
 // car class!!
-function Car() {
+function Fish() {
   // attributes
   this.pos = createVector(100, 100);
   this.vel = createVector(random(-5, 5), random(-5, 5));
@@ -143,12 +144,9 @@ function Car() {
 
   // methods
   this.display = function() {
-
+      image(fishImg);
     // maybe use an image here instead!
-    fill(this.r, this.g, this.b, this.a);
-    ellipse(this.pos.x - 50, this.pos.y, 50, 50);
-    ellipse(this.pos.x + 50, this.pos.y, 50, 50);
-    rect(this.pos.x + 17, this.pos.y - 30, 80, 60) ;
+
 
   }
 
