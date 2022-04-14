@@ -144,7 +144,7 @@ function Fish() {
 
   // methods
   this.display = function() {
-      image(fishImg,0,0);
+      image(fishImg,100,100);
     // maybe use an image here instead!
 
 
