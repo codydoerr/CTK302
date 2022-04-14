@@ -104,7 +104,7 @@ function deviceShaken() {
   // re-spawn fishes
   fishes = []; // clear the array first
   for (var i = 0; i < 40; i++) {
-    fishes.push(new Car());
+    fishes.push(new Fish());
   }
 }
 
