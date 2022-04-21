@@ -131,7 +131,7 @@ window.addEventListener('devicemotion', function(e) {
 
 
 
-// car class!!
+// fish class!!
 function Fish() {
   // attributes
   this.pos = createVector(100, 100);
