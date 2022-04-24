@@ -6,16 +6,25 @@ let myMap;
 let canvas;
 let json = {};
 var locationID;
+let locations = [];
+let peoria;
+let morton;
+let pekin;
+let bloomington;
+let washington;
+let normal;
 const mappa = new Mappa('Leaflet');
 let url = "";
 
 // Lets put all our map options in a single object
 const options = {
-    lat: 33,
-    lng: 130,
-    zoom: 1.5,
+  //Shows Peoria, Morton, and Bloomington
+    lat: 40.5428,
+    lng: -89.2593,
+    zoom: 11,
     style: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
 }
+
 
 
 function preload() {
@@ -24,22 +33,30 @@ function preload() {
 }
 
 function setup() {
-    let key = "1e-0nE4sm9w9kYBfXxYwOcWoPrSUiML4IKIInTK3ppAs";
-    url = "https://opensheet.elk.sh/" + key + "/1"; // here I'm making the string for loadJSON.
-    loadJSON(url, gotData);
     canvas = createCanvas(windowWidth, windowHeight);
     num = 0;
-    setInterval(updateLocations,30000)
+    //setInterval(updateLocations,30000);
     // intervalCurrentPosition(positionPing, 5000); // this is what calls positionPing function
     myMap = mappa.tileMap(options);
     myMap.overlay(canvas);
+
+
 }
 
 function draw() {
     clear();
-    const itoshima = myMap.latLngToPixel(33.511777, 130.146019);
-    // Using that position, draw an ellipse
-    ellipse(itoshima.x, itoshima.y, 5, 5);
+    washington = new EchoMapPin(myMap.latLngToPixel(40.7036,-89.4073));
+    peoria = new EchoMapPin(myMap.latLngToPixel(40.6936, -89.5890));
+    morton = new EchoMapPin(myMap.latLngToPixel(40.6128, -89.4593));
+    bloomington = new EchoMapPin(myMap.latLngToPixel(40.4842, -88.9937));
+    pekin = new EchoMapPin(myMap.latLngToPixel(40.5675,-89.6407));
+    normal = new EchoMapPin(myMap.latLngToPixel(40.5142,-88.9906));
+    peoria.display();
+    morton.display();
+    bloomington.display();
+    washington.display();
+    pekin.display();
+    normal.display();
 }
 
 function gotData(data) {
@@ -47,32 +64,44 @@ function gotData(data) {
 }
 
 function beginEcho() {
-    locationData = getCurrentPosition();
-    locationID++;
-    json = {
-        lat:locationData.latitude,
-        long:locationData.longitude,
-        id:locationID
-    };
-    let tempJSON = { Name: 'Cody', Color:"Red",Lat:22,Long:22};
-    save(tempJSON,'coordinates.json');
-    // saveJSON(json, '../coordinates.json');
+    locations.push(peoria);
+    locations.push(morton);
+    locations.push(bloomington);
+    locations.push(normal);
+    locations.push(washington);
+    locations.push(pekin);
+    let tempDistance;
+
+    let closestNeighbor;
+    for(let i = 0;i<locations.length;i++){
+      tempDistance = null;
+      for(let j = 0;j<locations.length;j++){
+        if(i==j || locations[j].connected){
+          j++;
+        }else if(tempDistance == null){
+          tempDistance = calcGeoDistance(locations[i].pos.x,locations[i].pos.y,locations[j].pos.x,locations[j].pos.y, 'mi');
+          closestNeighbor = locations[j];
+          locations[j].neighbor = locations[i];
+        }
+        else if(calcGeoDistance(locations[i].pos.x,locations[i].pos.y,locations[j].pos.x,locations[j].pos.y, 'mi') < tempDistance){
+          tempDistance = calcGeoDistance(locations[i].pos.x,locations[i].pos.y,locations[j].pos.x,locations[j].pos.y, 'mi');
+          closestNeighbor = locations[j];
+          locations[j].neighbor = locations[i];
+        }
+      }
+      locations[i].neighbor = closestNeighbor;
+    }
 }
-
-function updateLocations() {
-    // textSize(36);
-    num++;
-
-    distance = calcGeoDistance(locationData.latitude, locationData.longitude, position.latitude, position.longitude, 'mi');
-
-    background("#2452d1");
-    fill("white");
-    text("lat: " + position.latitude, 10, 40);
-    text("long: " + position.longitude, 10, 90);
-    text("number of updates " + num, 10, 140);
-
-    text("you have moved " + distance, 10, 190);
-    fill('red');
-    text("remember to take a screenshot before you take a picture of your surroundings!", 10, 260, 400);
-
+class EchoMapPin {
+  constructor(latLong) {
+    this.pos = latLong;
+    this.connected = false;
+    this.neighbor = null;
+  }
+  display() {
+    for(let i = 0;i<locations.length;i++){
+      line(locations[i].pos.x,locations[i].pos.y,locations[i].neighbor.pos.x,locations[i].neighbor.pos.y);
+    }
+    ellipse(this.pos.x, this.pos.y, 20, 20);
+  }
 }
