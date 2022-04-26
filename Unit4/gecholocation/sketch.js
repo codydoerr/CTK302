@@ -45,12 +45,43 @@ function setup() {
 
 function draw() {
     clear();
-    washington = new EchoMapPin(myMap.latLngToPixel(40.7036,-89.4073));
-    peoria = new EchoMapPin(myMap.latLngToPixel(40.6936, -89.5890));
-    morton = new EchoMapPin(myMap.latLngToPixel(40.6128, -89.4593));
-    bloomington = new EchoMapPin(myMap.latLngToPixel(40.4842, -88.9937));
-    pekin = new EchoMapPin(myMap.latLngToPixel(40.5675,-89.6407));
-    normal = new EchoMapPin(myMap.latLngToPixel(40.5142,-88.9906));
+    if(washington == null){
+        washington = new EchoMapPin(myMap.latLngToPixel(40.7036,-89.4073),null);
+    }
+    else {
+        washington = new EchoMapPin(myMap.latLngToPixel(40.7036,-89.4073),washington.neighbor);
+    }
+    if(peoria == null){
+        peoria = new EchoMapPin(myMap.latLngToPixel(40.6936, -89.5890),null);
+    }
+    else{
+        peoria = new EchoMapPin(myMap.latLngToPixel(40.6936, -89.5890),peoria.neighbor);
+    }
+    if(morton == null){
+        morton = new EchoMapPin(myMap.latLngToPixel(40.6128, -89.4593),null);
+    }
+    else{
+        morton = new EchoMapPin(myMap.latLngToPixel(40.6128, -89.4593),morton.neighbor);
+    }
+    if(bloomington == null){
+        bloomington = new EchoMapPin(myMap.latLngToPixel(40.4842, -88.9937),null);
+    }
+    else {
+        bloomington = new EchoMapPin(myMap.latLngToPixel(40.4842, -88.9937),bloomington.neighbor);
+    }
+    if(pekin == null){
+        pekin = new EchoMapPin(myMap.latLngToPixel(40.5675,-89.6407),null);
+    }
+    else {
+        pekin = new EchoMapPin(myMap.latLngToPixel(40.5675,-89.6407),pekin.neighbor);
+    }
+    if(normal == null){
+        normal = new EchoMapPin(myMap.latLngToPixel(40.5142,-88.9906),null);
+    }
+    else {
+        normal = new EchoMapPin(myMap.latLngToPixel(40.5142,-88.9906),normal.neighbor);
+    }
+
     peoria.display();
     morton.display();
     bloomington.display();
@@ -93,14 +124,14 @@ function beginEcho() {
     }
 }
 class EchoMapPin {
-  constructor(latLong) {
+  constructor(latLong,neighbor) {
     this.pos = latLong;
     this.connected = false;
-    this.neighbor = null;
+    this.neighbor = neighbor;
   }
   display() {
-    for(let i = 0;i<locations.length;i++){
-      line(locations[i].pos.x,locations[i].pos.y,locations[i].neighbor.pos.x,locations[i].neighbor.pos.y);
+    if(this.neighbor != null){
+        line(this.pos.x,this.pos.y,this.neighbor.pos.x,this.neighbor.pos.y);
     }
     ellipse(this.pos.x, this.pos.y, 20, 20);
   }
