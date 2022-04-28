@@ -3,7 +3,7 @@ let myColor;
 var num;
 var distance;
 var font1, font2;
-var locationData;
+let locationData;
 let myMap;
 let canvas;
 var locationID;
@@ -14,6 +14,7 @@ let pekin;
 let bloomington;
 let washington;
 let normal;
+let myPin;
 let me;
 let flower;
 let state = 0;
@@ -28,19 +29,21 @@ const options = {
     style: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
 }
 function preload() {
-    locationData = getCurrentPosition();
-    //font1 = loadFont("Assets/Anton.ttf");
+    font1 = loadFont("assets/Anton.ttf");
 }
 function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
     num = 0;
-    //textFont(font1, 24);
+    flower = loadImage("assets/Spring.png");
+    textFont(font1, 24);
     //setInterval(updateLocations,30000);
     // intervalCurrentPosition(positionPing, 5000); // this is what calls positionPing function
     myMap = mappa.tileMap(options);
     myMap.overlay(canvas);
     imageMode(CENTER);
     textAlign(CENTER);
+
+    locationData = getCurrentPosition();
 }
 function draw() {
     clear();
@@ -84,17 +87,29 @@ function draw() {
     else {
         normal = new EchoMapPin(myMap.latLngToPixel(40.5142,-88.9906),normal.neighbor);
     }
+    if(myPin == null){
+      myPin = new EchoMapPin(myMap.latLngToPixel(locationData.latitude,locationData.longitude),null);
+    }
+    else {
+      myPin = new EchoMapPin(myMap.latLngToPixel(locationData.latitude,locationData.longitude),myPin.neighbor);
+    }
     peoria.display();
     morton.display();
     bloomington.display();
     washington.display();
     pekin.display();
     normal.display();
+    if(myPin != null){
+      myPin.display();
+    }
 }
 function gotData(data) {
     console.log(data); // Print the data in the console
 }
 function beginEcho() {
+    locations = [];
+    print(myPin);
+    locations.push(myPin);
     locations.push(peoria);
     locations.push(morton);
     locations.push(bloomington);
@@ -127,11 +142,18 @@ class EchoMapPin {
     this.pos = latLong;
     this.connected = false;
     this.neighbor = neighbor;
+    this.r = random(255);
+    this.g = random(255);
+    this.b = random(255);
   }
   display() {
     if(this.neighbor != null){
         line(this.pos.x,this.pos.y,this.neighbor.pos.x,this.neighbor.pos.y);
     }
+    push();
+    fill(myColor);
     ellipse(this.pos.x, this.pos.y, 20, 20);
+    image(flower, this.pos.x, this.pos.y, 25, 25);
+    pop();
   }
 }
