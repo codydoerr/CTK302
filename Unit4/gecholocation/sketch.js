@@ -107,7 +107,7 @@ function beginEcho() {
     for(let i = 0;i<locations.length;i++){
       tempDistance = null;
       for(let j = 0;j<locations.length;j++){
-        if(i==j || locations[j].connected){
+        if(i==j /*|| locations[j].connected*/){
           j++;
         }else if(tempDistance == null){
           tempDistance = calcGeoDistance(locations[i].pos.x,locations[i].pos.y,locations[j].pos.x,locations[j].pos.y, 'mi');
