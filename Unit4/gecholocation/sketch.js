@@ -89,8 +89,7 @@ function draw() {
   } else {
     myPin = new EchoMapPin(myMap.latLngToPixel(locationData.latitude, locationData.longitude), myPin.neighbor);
   }
-
-  noFill();
+  //noFill();
   beginShape();
   peoria.display();
   morton.display();
@@ -101,7 +100,7 @@ function draw() {
   if (myPin != null) {
     myPin.display();
   }
-  endShape();
+  //endShape();
 }
 
 function gotData(data) {
@@ -121,39 +120,52 @@ function beginEcho() {
   let closestNeighbor;
   for (let i = 0; i < locations.length; i++) {
     tempDistance = null;
+    closestNeighbor = null;
     for (let j = 0; j < locations.length; j++) {
-      if (i == j /*|| locations[j].connected*/ ) {
+      if (i == j || locations[j].connected) {
         j++;
-      } else if (tempDistance == null) {
-        tempDistance = calcGeoDistance(locations[i].pos.x, locations[i].pos.y, locations[j].pos.x, locations[j].pos.y, 'mi');
+      }
+      else
+      {
+        if (tempDistance == null) {
+        tempDistance = calcGeoDistance(locations[j].pos.x, locations[j].pos.y,locations[i].pos.x, locations[i].pos.y, 'mi');
         closestNeighbor = locations[j];
         locations[j].neighbor = locations[i];
-      } else if (calcGeoDistance(locations[i].pos.x, locations[i].pos.y, locations[j].pos.x, locations[j].pos.y, 'mi') < tempDistance) {
-        tempDistance = calcGeoDistance(locations[i].pos.x, locations[i].pos.y, locations[j].pos.x, locations[j].pos.y, 'mi');
+        }
+        else if (calcGeoDistance(locations[j].pos.x, locations[j].pos.y,locations[i].pos.x, locations[i].pos.y, 'mi') < tempDistance)
+        {
+        tempDistance = calcGeoDistance(locations[j].pos.x, locations[j].pos.y,locations[i].pos.x, locations[i].pos.y, 'mi');
+        closestNeighbor.connected = false;
         closestNeighbor = locations[j];
+        closestNeighbor.connected = true;
         locations[j].neighbor = locations[i];
+        }
       }
     }
     locations[i].neighbor = closestNeighbor;
+    locations[i].connected = true;
   }
 }
 class EchoMapPin {
   constructor(latLong, neighbor) {
     this.pos = latLong;
-    this.connected = false;
+    if(this.connected = null)
+    {
+      this.connected = false;
+    }
     this.neighbor = neighbor;
+    this.neighborIndex;
     this.r = random(255);
     this.g = random(255);
     this.b = random(255);
   }
   display() {
     if (this.neighbor != null) {
-      //line(this.pos.x,this.pos.y,this.neighbor.pos.x,this.neighbor.pos.y);
-      vertex(this.pos.x, this.pos.y);
+      line(this.pos.x,this.pos.y,this.neighbor.pos.x,this.neighbor.pos.y);
+      //vertex(this.pos.x, this.pos.y);
     }
     push();
     fill(myColor);
-    ellipse(this.pos.x, this.pos.y, 20, 20);
     image(flower, this.pos.x, this.pos.y, 25, 25);
     pop();
   }
