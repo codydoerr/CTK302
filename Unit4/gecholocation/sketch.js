@@ -1,10 +1,11 @@
+let name;
+let myColor;
 var num;
 var distance;
 var font1, font2;
 var locationData;
 let myMap;
 let canvas;
-let json = {};
 var locationID;
 let locations = [];
 let peoria;
@@ -13,9 +14,11 @@ let pekin;
 let bloomington;
 let washington;
 let normal;
+let me;
+let flower;
+let state = 0;
+let place = [];
 const mappa = new Mappa('Leaflet');
-let url = "";
-
 // Lets put all our map options in a single object
 const options = {
   //Shows Peoria, Morton, and Bloomington
@@ -24,27 +27,27 @@ const options = {
     zoom: 11,
     style: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
 }
-
-
-
 function preload() {
-    //font1 = loadFont("assets/Mohave-Light.ttf");
-    //loadJSON('\coordinates.json');
+    locationData = getCurrentPosition();
+    //font1 = loadFont("Assets/Anton.ttf");
 }
-
 function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
     num = 0;
+    //textFont(font1, 24);
     //setInterval(updateLocations,30000);
     // intervalCurrentPosition(positionPing, 5000); // this is what calls positionPing function
     myMap = mappa.tileMap(options);
     myMap.overlay(canvas);
-
-
+    imageMode(CENTER);
+    textAlign(CENTER);
 }
-
 function draw() {
     clear();
+    if (name == null) {
+      name = prompt("What is your name?");
+      myColor = prompt("What is your favorite color?");
+    }
     if(washington == null){
         washington = new EchoMapPin(myMap.latLngToPixel(40.7036,-89.4073),null);
     }
@@ -81,7 +84,6 @@ function draw() {
     else {
         normal = new EchoMapPin(myMap.latLngToPixel(40.5142,-88.9906),normal.neighbor);
     }
-
     peoria.display();
     morton.display();
     bloomington.display();
@@ -89,11 +91,9 @@ function draw() {
     pekin.display();
     normal.display();
 }
-
 function gotData(data) {
     console.log(data); // Print the data in the console
 }
-
 function beginEcho() {
     locations.push(peoria);
     locations.push(morton);
@@ -102,12 +102,11 @@ function beginEcho() {
     locations.push(washington);
     locations.push(pekin);
     let tempDistance;
-
     let closestNeighbor;
     for(let i = 0;i<locations.length;i++){
       tempDistance = null;
       for(let j = 0;j<locations.length;j++){
-        if(i==j || locations[j].connected){
+        if(i==j /*|| locations[j].connected*/){
           j++;
         }else if(tempDistance == null){
           tempDistance = calcGeoDistance(locations[i].pos.x,locations[i].pos.y,locations[j].pos.x,locations[j].pos.y, 'mi');
