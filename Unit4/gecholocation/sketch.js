@@ -32,13 +32,13 @@ const options = {
 }
 
 function preload() {
-  font1 = loadFont("Assets/Anton.ttf");
+  font1 = loadFont("assets/Anton.ttf");
 }
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   num = 0;
-  flower = loadImage("Assets/Spring.png");
+  flower = loadImage("assets/Spring.png");
   textFont(font1, 12);
   //setInterval(updateLocations,30000);
   // intervalCurrentPosition(positionPing, 5000); // this is what calls positionPing function
