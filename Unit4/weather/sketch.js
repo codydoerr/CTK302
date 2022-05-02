@@ -3,6 +3,7 @@
 let weather;
 let weatherID = 0; // returned in the JSON weather element
 let state = 0;
+let city;
 let x = -20;
 let windspeed = 0;
 let totalRain = [];
@@ -39,6 +40,7 @@ class Rain {
 }
 
 function setup() {
+  city = prompt("Enter a City:");
   createCanvas(windowWidth, windowHeight);
   rainImg = loadImage('assets/raindrop.png');
   cloudImg = loadImage('assets/clouds.png');
@@ -46,7 +48,7 @@ function setup() {
   // HERE is the call to get the weather. We build the string first.
 
   let myCityString =
-    "https://api.openweathermap.org/data/2.5/weather?q=Graham,TX,US&units=imperial&";
+    "https://api.openweathermap.org/data/2.5/weather?q="+city+",US&units=imperial&";
 
   //You can also use "zipcode"
   // substitute zip=61820 for q=Normal,IL,US
