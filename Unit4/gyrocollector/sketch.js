@@ -6,6 +6,7 @@ var z = 0;
 var xPosition = 0;
 var yPosition = 0;
 var fishImg;
+var hookImg;
 // var bunnyImage;
 var fishes = [];
 var frogPos;
@@ -25,6 +26,7 @@ function setup() {
   }
   //load fish img
   fishImg = loadImage("assets/PNG/fish.png");
+  hookImg = loadImage("assets/PNG/hook.png");
   // initialize the frog's position
   frogPos = createVector(width / 2, height - 80);
   imageMode(CENTER);
@@ -50,8 +52,7 @@ function draw() {
 
   // draw the FROG
   // image(bunnyImage, 0, 0, 500, 500);
-  fill('green');
-  ellipse(0, 0, 80, 80);
+  image(hookImg,0,0,100,100);
   pop();
 
 
