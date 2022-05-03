@@ -3,11 +3,11 @@ let url = "";
 
 function setup() {
   //let key = "1xG5lzBtJV3gK61ZE_qdku3ms9-pCJqwl0T8RVHI11m0"; // this is KEY of the URL from the sheet
-  let key = "1e-0nE4sm9w9kYBfXxYwOcWoPrSUiML4IKIInTK3ppAs";
+  let key = "1Zfvy1UlmvXyqFgH3XDefi2PEF3w0q4H7zFi1mZhRs0w";
   url = "https://opensheet.elk.sh/" + key + "/1"; // here I'm making the string for loadJSON.
 
   loadJSON(url, gotData);
-
+  angleMode(DEGREES);
   // Regular setup code we usually have
   createCanvas(600, 600);
   textAlign(CENTER);
@@ -26,13 +26,13 @@ function gotData(data) {
       new Bubble(
         data[i]["What is your name?"],
         data[i]["Where is your Recycling Bin?"],
-        data[i]["How many files are left in there?"]); // THESE NEED TO MATCH SPREADSHEET
+        data[i]["How many files are still in there? (1 - Empty, 10 - Overfull)"])); // THESE NEED TO MATCH SPREADSHEET
 
   }
 }
 
 function draw() {
-  background("blue");
+  background("teal");
 
   // // iterate through the bubbles and display the objects!
   for (let i = 0; i < bubbles.length; i++) {
@@ -52,17 +52,37 @@ class Bubble {
   }
 
   display() {
-    stroke("red");
-    noFill();
-    ellipse(this.pos.x, this.pos.y+10, 120, 120);
-    fill("white");
-    text(
-      this.name + "\n" + this.bin + "\n" + this.number,
-      this.pos.x,
-      this.pos.y
-    );
 
-    this.pos.add(this.vel) ;
+    if(dist(this.pos.x,this.pos.y,mouseX,mouseY)>60){
+      strokeWeight(4);
+      stroke("red");
+      noFill();
+      ellipse(this.pos.x, this.pos.y+10, 120, 120);
+      noStroke();
+      fill("white");
+      text(
+        this.name + "\n" + this.bin + "\n" + this.number,
+        this.pos.x,
+        this.pos.y
+      );
+      this.pos.add(this.vel);
+    }
+    else{
+      strokeWeight(4);
+      stroke("red");
+      noFill();
+      ellipse(this.pos.x, this.pos.y+10, 120, 120);
+      fill('orange');
+      arc(this.pos.x, this.pos.y+10, 120, 120, 270, 270+(360/this.number/10), PIE);
+      noStroke();
+      fill("white");
+      text(
+        this.name + "\n" + this.bin + "\n" + this.number,
+        this.pos.x,
+        this.pos.y
+      );
+    }
+
     if (this.pos.x > width) this.pos.x = 0 ;
 
   }
