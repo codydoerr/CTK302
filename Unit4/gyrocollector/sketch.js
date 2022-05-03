@@ -9,8 +9,10 @@ var fishImg;
 // var bunnyImage;
 var fishes = [];
 var frogPos;
-
-
+// How to do angle based on current velocity in unity
+// Vector2 dir = rigidbody.velocity;
+// float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+// transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 function setup() {
 
   createCanvas(windowWidth, windowHeight);
@@ -25,13 +27,10 @@ function setup() {
   for (var i = 0; i < 40; i++) {
     fishes.push(new Fish());
   }
-
+  //load fish img
+  fishImg = loadImage("assets/PNG/fish.png");
   // initialize the frog's position
   frogPos = createVector(width / 2, height - 80);
-
-  // load any images you need
-  fishImg = loadImage("assets/PNG/fish.png");
-  //bunnyImage = loadImage("assets/bunny.jpg");
   imageMode(CENTER);
   rectMode(CENTER);
   noStroke();
@@ -65,10 +64,9 @@ function draw() {
   frogPos.y = yPosition;
 
   // iterate through the fish loop to move them and see if we need to delete fishes
-  for (var i = 0; i < fishes.length; i++) {
+  for (let i = 0; i < fishes.length; i++) {
     fishes[i].display();
-    fishes[i].drive();
-    if (fishes[i].pos.dist(frogPos) < 50) {
+    if (dist(frogPos.x,frogPos.y,fishes[i].pos.x,fishes[i].pos.y)< 50) {
       fishes.splice(i, 1);
     }
   }
@@ -103,7 +101,7 @@ function draw() {
 function deviceShaken() {
   // re-spawn fishes
   fishes = []; // clear the array first
-  for (var i = 0; i < 40; i++) {
+  for (let i = 0; i < 40; i++) {
     fishes.push(new Fish());
   }
 }
@@ -127,30 +125,17 @@ window.addEventListener('devicemotion', function(e) {
   z = e.acceleration.z;
 });
 
-
-
-
-
 // fish class!!
-function Fish() {
-  // attributes
-  this.pos = createVector(100, 100);
-  this.vel = createVector(random(-5, 5), random(-5, 5));
-  this.r = random(255);
-  this.g = random(255);
-  this.b = random(255);
-  this.a = random(255);  // alpha opacity value for fill!
-
-
-  // methods
-  this.display = function() {
-      image(fishImg,100,100);
-    // maybe use an image here instead!
-
-
+class Fish {
+  constructor(){
+    this.pos = createVector(width/2, 100);
+    this.vel = createVector(random(-5, 5), random(-5, 5));
   }
-
-  this.drive = function() {
+  display() {
+    drive();
+    image(fishImg,this.pos.x,this.pos.y,50,50);
+  }
+  drive() {
     this.pos.add(this.vel);
 
     if (this.pos.x > width) this.pos.x = 0;
