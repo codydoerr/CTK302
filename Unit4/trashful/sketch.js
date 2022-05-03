@@ -1,6 +1,5 @@
 var bubbles = [];
 let url = "";
-
 function setup() {
   //let key = "1xG5lzBtJV3gK61ZE_qdku3ms9-pCJqwl0T8RVHI11m0"; // this is KEY of the URL from the sheet
   let key = "1Zfvy1UlmvXyqFgH3XDefi2PEF3w0q4H7zFi1mZhRs0w";
@@ -9,7 +8,7 @@ function setup() {
   loadJSON(url, gotData);
   angleMode(DEGREES);
   // Regular setup code we usually have
-  createCanvas(600, 600);
+  createCanvas(windowWidth, windowHeight);
   textAlign(CENTER);
   ellipseMode(CENTER);
   rectMode(CENTER);
@@ -19,25 +18,23 @@ function setup() {
 
 function gotData(data) {
   console.log(data); // Print the data in the console
-
   // add each line to an array of bubbles
   for (let i = 0; i < data.length; i++) {
-    bubbles.push(
-      new Bubble(
-        data[i]["What is your name?"],
-        data[i]["Where is your Recycling Bin?"],
-        data[i]["How many files are still in there? (1 - Empty, 10 - Overfull)"])); // THESE NEED TO MATCH SPREADSHEET
-
+    let tempBubble = new Bubble(
+            data[i]["What is your name?"],
+            data[i]["Where is your Recycling Bin?"],
+            data[i]["How many files are still in there? (1 - Empty, 10 - Overfull)"]);
+    bubbles.push(tempBubble); // THESE NEED TO MATCH SPREADSHEET
   }
 }
 
 function draw() {
   background("teal");
-
   // // iterate through the bubbles and display the objects!
   for (let i = 0; i < bubbles.length; i++) {
     bubbles[i].display();
   }
+
 }
 
 // my Bubble class
