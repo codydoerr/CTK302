@@ -9,14 +9,10 @@ var fishImg;
 // var bunnyImage;
 var fishes = [];
 var frogPos;
-// How to do angle based on current velocity in unity
-// Vector2 dir = rigidbody.velocity;
-// float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-// transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
 function setup() {
-
   createCanvas(windowWidth, windowHeight);
-
+  angleMode(DEGREES);
   // initialize accelerometer variables
   alpha = 0;
   beta = 0;
@@ -75,25 +71,25 @@ function draw() {
   fill('white');
   textSize(40);
   textAlign(CENTER);
-  text("your words or image here!", width / 2, 600, windowWidth - 200, windowHeight - 200);
+  text("Catch the Fish!", width / 2, 600, windowWidth - 200, windowHeight - 200);
 
 
   // Debugging information -- take this out when you're ready for production!
   // Just a bunch of text commands to display data coming in from addEventListeners
-  textAlign(LEFT);
-  textSize(20);
-  fill('black');
-  text("orientation data:", 25, 25);
-  textSize(15);
-  text("alpha: " + alpha, 25, 50);
-  text("beta: " + beta, 25, 70);
-  text("gamma: " + gamma, 25, 90);
-  textSize(20);
-  text("acceleration data:", 25, 125);
-  textSize(15);
-  text("x = " + x, 25, 150); // .toFixed means just show (x) decimal places
-  text("y = " + y, 25, 170);
-  text("z = " + z, 25, 190);
+  // textAlign(LEFT);
+  // textSize(20);
+  // fill('black');
+  // text("orientation data:", 25, 25);
+  // textSize(15);
+  // text("alpha: " + alpha, 25, 50);
+  // text("beta: " + beta, 25, 70);
+  // text("gamma: " + gamma, 25, 90);
+  // textSize(20);
+  // text("acceleration data:", 25, 125);
+  // textSize(15);
+  // text("x = " + x, 25, 150); // .toFixed means just show (x) decimal places
+  // text("y = " + y, 25, 170);
+  // text("z = " + z, 25, 190);
 
 
 }
@@ -131,18 +127,22 @@ class Fish {
     this.pos = createVector(width/2, 100);
     this.vel = createVector(random(-5, 5), random(-5, 5));
   }
-  display() {
-    drive();
-    image(fishImg,this.pos.x,this.pos.y,50,50);
-  }
   drive() {
     this.pos.add(this.vel);
-
     if (this.pos.x > width) this.pos.x = 0;
     if (this.pos.x < 0) this.pos.x = width;
     if (this.pos.y > height) this.pos.y = 0;
     if (this.pos.y < 0) this.pos.y = height;
-
   }
-
+  display() {
+    // How to do angle based on current velocity in unity
+    // Vector2 dir = rigidbody.velocity;
+    // float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+    // transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    this.drive();
+    push();
+    rotate(atan2(this.vel.y,this.vel.x));
+    image(fishImg,this.pos.x,this.pos.y,50,50);
+    pop();
+  }
 }
